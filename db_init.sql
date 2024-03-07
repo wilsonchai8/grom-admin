@@ -1,11 +1,6 @@
+CREATE DATABASE IF NOT EXISTS grom_admin DEFAULT CHARSET UTF8MB4;
 
-SQL = [
-    """
-CREATE DATABASE IF NOT EXISTS op_main DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
-""",
-
-    """
-CREATE TABLE IF NOT EXISTS `op_main`.`user`(
+CREATE TABLE IF NOT EXISTS `grom_admin`.`user`(
    `id`                               INT AUTO_INCREMENT,
    `username`                         VARCHAR(64) NOT NULL,
    `password`                         VARCHAR(64) NOT NULL,
@@ -20,11 +15,9 @@ CREATE TABLE IF NOT EXISTS `op_main`.`user`(
    PRIMARY KEY (`id`),
    UNIQUE KEY(`username`),
    INDEX (create_time)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
-""",
+)ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
 
-    """
-CREATE TABLE IF NOT EXISTS `op_main`.`role`(
+CREATE TABLE IF NOT EXISTS `grom_admin`.`role`(
    `id`                               INT AUTO_INCREMENT,
    `rolename`                         VARCHAR(64) NOT NULL,
    `super`                            BOOLEAN NOT NULL DEFAULT FALSE,
@@ -33,12 +26,15 @@ CREATE TABLE IF NOT EXISTS `op_main`.`role`(
    `requests`                         VARCHAR(1000) DEFAULT '',
    PRIMARY KEY (`id`),
    UNIQUE KEY(`rolename`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
-""",
+)ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
 
-    """
-INSERT INTO op_main.user(role_id, username, password, status, super) 
-values(0, 'admin', '9c46b88a4191a7907fad086fc57c630f', 1, 1);
-""",
+CREATE TABLE IF NOT EXISTS `grom_admin`.`token`(
+   `id`                               INT AUTO_INCREMENT,
+   `tokenname`                        VARCHAR(64) NOT NULL,
+   `key`                              VARCHAR(64) NOT NULL,
+   `payload`                          VARCHAR(256) DEFAULT '',
+   PRIMARY KEY (`id`),
+   UNIQUE KEY(`tokenname`)
+)ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
 
-]
+INSERT INTO grom_admin.user(role_id, username, password, status, super) values(0, 'admin', '9c46b88a4191a7907fad086fc57c630f', 1, 1);
