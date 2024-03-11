@@ -291,18 +291,18 @@ class Token:
         return ret
 
     async def token_exists(self, id=None, tokenname=None):
-        token_info = 0
+        res = 0
         if id:
-            token_info = await self.mp.dml(
+            res = await self.mp.dml(
                 "select count(1) counts from token where id = %s", 
                 (id,)
             )
         if tokenname:
-            token_info = await self.mp.dml(
+            res = await self.mp.dml(
                 "select count(1) counts from token where tokenname = %s", 
                 (tokenname,)
             )
-        return token_info
+        return res
 
 
 class UserManager(metaclass=Singleton):
