@@ -20,9 +20,10 @@ class AuthHandler(WebHandler):
     async def put(self, *args, **kwargs):
         origin_url = self.request.headers.get('origin-url')
         um = UserManager()
-        if self.get_cookie('token'):
+        token = self.request.headers.get('Authorization')
+        if token:
             payload = {
-                'token': self.get_cookie('token')
+                'token': token
             }
             await um.token_check(payload)
         else:

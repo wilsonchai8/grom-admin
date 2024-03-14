@@ -4,6 +4,7 @@ from src.common.exception_handler import *
 from src.common.utils import Singleton
 from src.common.log_handler import logger
 import random
+import re
 
 __all__ = (
     'UserManager',
@@ -420,7 +421,8 @@ class UserManager(metaclass=Singleton):
         loop = get_loop()
         mp = MysqlPool(loop)
         try:
-            res = JwtManager().decode(payload['token'])
+            auth_type, token = re.split(r'\s+', payload['token'])
+            res = JwtManager().decode(token)
             tokenname = res['tokenname']
             tokenkey = res['tokenkey']
             token_res = await mp.dml(
