@@ -341,6 +341,9 @@ class UserManager(metaclass=Singleton):
         return user_info
 
     async def user_refresh(self, id, **kwargs):
+        user_exist = await User().exist(id)
+        if not user_exist:
+            raise AuthError()
         data = await User().list_user(id) or {}
         user_info = data['user_info']
         if not user_info['super']:
